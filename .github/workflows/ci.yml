@@ -19,7 +19,7 @@ permissions:
 # =========================
 env:
   REGISTRY: ghcr.io
-  IMAGE_OWNER: syrinehusseyni
+  IMAGE_OWNER: adalisiwar
 
 jobs:
 
