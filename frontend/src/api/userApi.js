@@ -1,5 +1,7 @@
-const USER_SERVICE = import.meta.env.VITE_USER_SERVICE;
-const DELIVERY_SERVICE = import.meta.env.VITE_DELIVERY_SERVICE;
+// Use direct service URLs for development (bypass API Gateway due to routing issue)
+const API_BASE = 'http://localhost:9000/api';
+const USER_SERVICE = 'http://localhost:8081/api/users';
+const DELIVERY_SERVICE = 'http://localhost:8083/api/delivery';
 
 const parseResponse = async (response) => {
     const contentType = response.headers.get("content-type") || "";
@@ -21,7 +23,7 @@ const parseResponse = async (response) => {
 
 // ── AUTH ──────────────────────────────────────────
 export const loginUser = async (email, password) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/auth/login`, {
+    const response = await fetch(`${USER_SERVICE}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -30,24 +32,24 @@ export const loginUser = async (email, password) => {
 };
 
 export const registerUser = async (data) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/register`, {
+    const response = await fetch(`${USER_SERVICE}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
-    return response.json();
+    return parseResponse(response);
 };
 
 // ── RESTAURANTS ───────────────────────────────────
 export const getRestaurants = async (token) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/restaurants`, {
+    const response = await fetch(`${USER_SERVICE}/restaurants`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     return response.json();
 };
 
 export const getRestaurantById = async (token, id) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/restaurants/${id}`, {
+    const response = await fetch(`${USER_SERVICE}/restaurants/${id}`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     return response.json();
@@ -55,7 +57,7 @@ export const getRestaurantById = async (token, id) => {
 
 // ── MENU ──────────────────────────────────────────
 export const getMenuByRestaurant = async (token, restaurantId) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/menu/${restaurantId}`, {
+    const response = await fetch(`${USER_SERVICE}/menu/${restaurantId}`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     return response.json();
@@ -63,7 +65,7 @@ export const getMenuByRestaurant = async (token, restaurantId) => {
 
 // ── CART ──────────────────────────────────────────
 export const addToCart = async (token, cartItem) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/cart/add`, {
+    const response = await fetch(`${USER_SERVICE}/cart/add`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -75,14 +77,14 @@ export const addToCart = async (token, cartItem) => {
 };
 
 export const getCart = async (token, customerId) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/cart/${customerId}`, {
+    const response = await fetch(`${USER_SERVICE}/cart/${customerId}`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     return response.json();
 };
 
 export const clearCart = async (token, userId) => {
-    await fetch(`${USER_SERVICE}/api/users/cart/${userId}`, {
+    await fetch(`${USER_SERVICE}/cart/${userId}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
     });
@@ -90,7 +92,7 @@ export const clearCart = async (token, userId) => {
 
 // ── ORDERS ────────────────────────────────────────
 export const placeOrder = async (token, orderData) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/orders/create`, {
+    const response = await fetch(`${USER_SERVICE}/orders/create`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -103,14 +105,14 @@ export const placeOrder = async (token, orderData) => {
 
 
 export const getOrderById = async (token, orderId) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/orders/${orderId}`, {
+    const response = await fetch(`${USER_SERVICE}/orders/${orderId}`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     return response.json();
 };
 
 export const createOrderFromCart = async (token, userId, orderData) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/orders/from-cart?userId=${userId}`, {
+    const response = await fetch(`${USER_SERVICE}/orders/from-cart?userId=${userId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -135,7 +137,7 @@ export const createDelivery = async (token, deliveryData) => {
 };
 
 export const trackDelivery = async (token, deliveryId) => {
-    const response = await fetch(`${USER_SERVICE}/api/users/delivery/${deliveryId}/track`, {
+    const response = await fetch(`${USER_SERVICE}/delivery/${deliveryId}/track`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     return response.json();

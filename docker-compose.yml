@@ -47,9 +47,7 @@ services:
   # Eureka Server - Service Registry
   # ============================================
   eureka-server:
-    build:
-      context: ./backend/eureka-server
-      dockerfile: Dockerfile
+    image: ghcr.io/adalisiwar/eureka-server:latest
     container_name: fooddelivery-eureka
     restart: unless-stopped
     ports:
@@ -70,9 +68,7 @@ services:
   # API Gateway
   # ============================================
   api-gateway:
-    build:
-      context: ./backend/api-gateway
-      dockerfile: Dockerfile
+    image: ghcr.io/adalisiwar/api-gateway:latest
     container_name: fooddelivery-gateway
     restart: unless-stopped
     ports:
@@ -98,9 +94,7 @@ services:
   # User Service
   # ============================================
   user-service:
-    build:
-      context: ./backend/user-service
-      dockerfile: Dockerfile
+    image: ghcr.io/adalisiwar/user-service:latest
     container_name: fooddelivery-user-service
     restart: unless-stopped
     ports:
@@ -123,9 +117,7 @@ services:
   # Restaurant Service
   # ============================================
   restaurant-service:
-    build:
-      context: ./backend/restaurant-service
-      dockerfile: Dockerfile
+    image: ghcr.io/adalisiwar/restaurant-service:latest
     container_name: fooddelivery-restaurant-service
     restart: unless-stopped
     ports:
@@ -148,9 +140,7 @@ services:
   # Delivery Service
   # ============================================
   delivery-service:
-    build:
-      context: ./backend/delivery-service
-      dockerfile: Dockerfile
+    image: ghcr.io/adalisiwar/delivery-service:latest
     container_name: fooddelivery-delivery-service
     restart: unless-stopped
     ports:
@@ -173,9 +163,7 @@ services:
   # Order Service
   # ============================================
   order-service:
-    build:
-      context: ./backend/order-service
-      dockerfile: Dockerfile
+    image: ghcr.io/adalisiwar/order-service:latest
     container_name: fooddelivery-order-service
     restart: unless-stopped
     ports:
@@ -199,9 +187,7 @@ services:
   # Admin Service
   # ============================================
   admin-service:
-    build:
-      context: ./backend/admin-service
-      dockerfile: Dockerfile
+    image: ghcr.io/adalisiwar/admin-service:latest
     container_name: fooddelivery-admin-service
     restart: unless-stopped
     ports:
@@ -224,9 +210,7 @@ services:
   # Frontend (React + Vite)
   # ============================================
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: ghcr.io/adalisiwar/frontend:latest
     container_name: fooddelivery-frontend
     restart: unless-stopped
     ports:
