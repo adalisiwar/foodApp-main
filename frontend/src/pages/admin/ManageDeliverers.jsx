@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = "http://localhost:8089";
+const API = "";
 
 const emptyForm = { name: "", email: "", password: "", phone: "", licenseNumber: "", vehiculeType: "Moto" };
 

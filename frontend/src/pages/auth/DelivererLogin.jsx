@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = "http://localhost:8083";
+const API = "";
 
 export default function DelivererLogin() {
     const [email, setEmail] = useState("");

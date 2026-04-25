@@ -24,21 +24,19 @@ public class GatewayConfig {
                                 .and().method(HttpMethod.POST)
                                 .uri("lb://user-service"))
 
-                .route("user-service-login",
-                        r -> r.path("/api/users/login")
-                                .and().method(HttpMethod.POST)
+                .route("user-service-auth",
+                        r -> r.path("/api/users/auth/**")
                                 .uri("lb://user-service"))
 
-                .route("user-service-protected",
+                .route("user-service",
                         r -> r.path("/api/users/**")
-                                .and().method(HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE)
-                                .uri("lb://user-service"))
-
-                .route("user-service-profile",
-                        r -> r.path("/api/users/profile/**")
                                 .uri("lb://user-service"))
 
                 //
+                .route("restaurant-service-auth",
+                        r -> r.path("/api/restaurants/auth/**")
+                                .uri("lb://restaurant-service"))
+
                 .route("restaurant-service-public",
                         r -> r.path("/api/restaurants/**", "/api/menu/**")
                                 .and().method(HttpMethod.GET)
@@ -71,24 +69,22 @@ public class GatewayConfig {
                                 .uri("lb://delivery-service"))
 
                 // Admin Service
-                .route("admin-service-login",
-                        r -> r.path("/api/admin/auth/login")
-                                .and().method(HttpMethod.POST)
-                                .filters(f -> f.removeResponseHeader("Server"))
+                .route("admin-service-auth",
+                        r -> r.path("/api/admin/auth/**")
                                 .uri("lb://admin-service"))
 
                 .route("admin-service-admin",
                         r -> r.path("/api/admin/**")
                                 .uri("lb://admin-service"))
 
-                .route("admin-service-delivery-personnels",
-                        r -> r.path("/api/delivery-personnels/**")
+                .route("admin-service-deliverers",
+                        r -> r.path("/api/admin/deliverers/**")
                                 .uri("lb://admin-service"))
                 .route("admin-service-restaurants",
-                        r -> r.path("/api/restaurants/**")
+                        r -> r.path("/api/admin/restaurants/**")
                                 .uri("lb://admin-service"))
                 .route("admin-service-users",
-                        r -> r.path("/api/users/**")
+                        r -> r.path("/api/admin/users/**")
                                 .uri("lb://admin-service"))
 
                 .build();

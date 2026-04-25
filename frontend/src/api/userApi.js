@@ -1,7 +1,5 @@
-// Use direct service URLs for development (bypass API Gateway due to routing issue)
-const API_BASE = 'http://localhost:9000/api';
-const USER_SERVICE = 'http://localhost:8081/api/users';
-const DELIVERY_SERVICE = 'http://localhost:8083/api/delivery';
+const USER_SERVICE = '/api/users';
+const DELIVERY_SERVICE = '/api/delivery';
 
 const parseResponse = async (response) => {
     const contentType = response.headers.get("content-type") || "";
@@ -28,7 +26,7 @@ export const loginUser = async (email, password) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
     });
-    return response.json();
+    return parseResponse(response);
 };
 
 export const registerUser = async (data) => {
@@ -125,7 +123,7 @@ export const createOrderFromCart = async (token, userId, orderData) => {
 
 // ── DELIVERY ──────────────────────────────────────
 export const createDelivery = async (token, deliveryData) => {
-    const response = await fetch(`${DELIVERY_SERVICE}/api/delivery`, {
+    const response = await fetch(`${DELIVERY_SERVICE}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -145,7 +143,7 @@ export const trackDelivery = async (token, deliveryId) => {
 
 // ── RATINGS ───────────────────────────────────────
 export const addRating = async (token, ratingData) => {
-    const response = await fetch(`${USER_SERVICE}/api/ratings`, {  // ← fixed: /api/ratings not /api/users/ratings
+    const response = await fetch(`/api/ratings`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -157,7 +155,7 @@ export const addRating = async (token, ratingData) => {
 };
 
 export const getRatingsByUser = async (token, userId) => {         // ← add this
-    const response = await fetch(`${USER_SERVICE}/api/ratings/user/${userId}`, {
+    const response = await fetch(`/api/ratings/user/${userId}`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
     return response.json();

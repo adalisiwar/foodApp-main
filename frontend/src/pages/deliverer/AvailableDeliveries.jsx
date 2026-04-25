@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = "http://localhost:8083";
+const API = "";
 
 const STATUS_STEPS = ["AVAILABLE", "ASSIGNED", "IN_PROGRESS", "DELIVERED"];
 

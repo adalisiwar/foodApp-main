@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = "http://localhost:8082";
+const API = "";
 const emptyForm = { name: "", description: "", price: "", available: true };
 
 const imageByKeyword = [

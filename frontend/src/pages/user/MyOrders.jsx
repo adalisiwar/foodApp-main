@@ -97,7 +97,7 @@ export default function MyOrders() {
     const fetchOrders = async () => {
     try {
         const response = await fetch(
-            `http://localhost:8081/api/users/orders?customerId=${userId}`,
+            `/api/users/orders?customerId=${userId}`,
             { headers: { "Authorization": `Bearer ${token}` } }
         );
         const data = await response.json();

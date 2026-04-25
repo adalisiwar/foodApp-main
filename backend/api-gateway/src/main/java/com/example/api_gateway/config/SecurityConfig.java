@@ -12,10 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -33,6 +35,7 @@ public class SecurityConfig {
         @Bean
         public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
                 return http
+                                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                                 .authorizeExchange(exchanges -> exchanges
                                                 .anyExchange().permitAll() // Allow all for testing
@@ -107,17 +110,13 @@ public class SecurityConfig {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration corsConfig = new CorsConfiguration();
-                corsConfig.setAllowedOrigins(Arrays.asList(
+                corsConfig.setAllowedOrigins(List.of(
+                                "http://localhost:18080",
+                                "http://localhost:8080",
                                 "http://localhost:5173",
                                 "http://localhost:5174"));
                 corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-                corsConfig.setAllowedHeaders(Arrays.asList(
-                                "Content-Type",
-                                "Authorization",
-                                "X-Requested-With",
-                                "X-User-Id",
-                                "X-User-Email",
-                                "X-User-Role"));
+                corsConfig.setAllowedHeaders(Arrays.asList("*"));
                 corsConfig.setExposedHeaders(Arrays.asList(
                                 "Authorization",
                                 "X-User-Id",
@@ -129,5 +128,10 @@ public class SecurityConfig {
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", corsConfig);
                 return source;
+        }
+
+        @Bean
+        public CorsWebFilter corsWebFilter() {
+                return new CorsWebFilter((UrlBasedCorsConfigurationSource) corsConfigurationSource());
         }
 }

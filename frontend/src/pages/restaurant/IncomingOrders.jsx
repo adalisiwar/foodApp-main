@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API = "http://localhost:8082";
+const API = "";
 
 const STATUS_FLOW = {
     PLACED: { next: "PREPARING", label: "▶ Commencer préparation", color: "#f27405", bg: "#fff3e8" },

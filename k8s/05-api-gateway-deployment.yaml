@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: api-gateway
-        image: fooddelivery/api-gateway:monitoring
+        image: fooddelivery/api-gateway:host18080
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000

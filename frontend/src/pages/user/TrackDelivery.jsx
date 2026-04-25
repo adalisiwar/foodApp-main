@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-const DELIVERY_SERVICE = "http://localhost:8083";
+const DELIVERY_SERVICE = "";
 
 const STATUS_STEPS = [
     { key: "AVAILABLE",   label: "Commande placée",    emoji: "📦", desc: "Votre commande a été reçue" },
