@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: eureka-server
-        image: ghcr.io/adalisiwar/eureka-server:latest
+        image: fooddelivery/eureka-server:monitoring
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8761
         env:
@@ -42,12 +43,19 @@ kind: Service
 metadata:
   name: eureka-server
   namespace: fooddelivery
+  labels:
+    monitoring: enabled
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/port: "8761"
 spec:
   type: NodePort
   selector:
     app: eureka-server
   ports:
-  - port: 8761
+  - name: http
+    port: 8761
     targetPort: 8761
     nodePort: 30061
 

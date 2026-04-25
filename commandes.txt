@@ -1,0 +1,49 @@
+PGiyaoeWaQVC926feEtLaQVVZvyDQ0xs6GpzaDeN
+
+
+
+PS C:\Users\adali\Downloads\foodApp-main\foodApp-main> helm version
+version.BuildInfo{Version:"v4.1.4", GitCommit:"05fa37973dc9e42b76e1d2883494c87174b6074f", GitTreeState:"clean", GoVersion:"go1.25.9", KubeClientVersion:"v1.35"}
+PS C:\Users\adali\Downloads\foodApp-main\foodApp-main> kubectl get nodes
+NAME                    STATUS   ROLES           AGE     VERSION
+desktop-control-plane   Ready    control-plane   6d19h   v1.34.3
+PS C:\Users\adali\Downloads\foodApp-main\foodApp-main> helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+"prometheus-community" has been added to your repositories
+PS C:\Users\adali\Downloads\foodApp-main\foodApp-main> helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "prometheus-community" chart repository
+Update Complete. ⎈Happy Helming!⎈
+PS C:\Users\adali\Downloads\foodApp-main\foodApp-main> helm install prometheus prometheus-community/kube-prometheus-stack
+NAME: prometheus
+LAST DEPLOYED: Sat Apr 25 08:34:01 2026
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+kube-prometheus-stack has been installed. Check its status by running:
+  kubectl --namespace default get pods -l "release=prometheus"
+
+Get Grafana 'admin' user password by running:
+
+  kubectl --namespace default get secrets prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+
+Access Grafana local instance:
+
+  export POD_NAME=$(kubectl --namespace default get pod -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=prometheus" -oname)
+  kubectl --namespace default port-forward $POD_NAME 3000
+
+Get your grafana admin user password by running:
+
+  kubectl get secret --namespace default -l app.kubernetes.io/component=admin-secret -o jsonpath="{.items[0].data.admin-password}" | base64 --decode ; echo
+
+
+Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
+PS C:\Users\adali\Downloads\foodApp-main\foodApp-main> 
+PS C:\Users\adali\Downloads\foodApp-main\foodApp-main> kubectl get pods -l "release=prometheus"
+
+NAME                                                   READY   STATUS    RESTARTS   AGE
+prometheus-kube-prometheus-operator-786d4d45f9-mz9k6   1/1     Running   0          93s
+prometheus-kube-state-metrics-f47d8dd47-lddbt          1/1     Running   0          93s
+prometheus-prometheus-node-exporter-74j8j              1/1     Running   0          93s

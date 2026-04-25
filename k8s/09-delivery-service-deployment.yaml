@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: delivery-service
-        image: ghcr.io/adalisiwar/delivery-service:latest
+        image: fooddelivery/delivery-service:monitoring
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8083
         env:
@@ -43,10 +44,17 @@ kind: Service
 metadata:
   name: delivery-service
   namespace: fooddelivery
+  labels:
+    monitoring: enabled
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/port: "8083"
 spec:
   selector:
     app: delivery-service
   ports:
-  - port: 8083
+  - name: http
+    port: 8083
     targetPort: 8083
 

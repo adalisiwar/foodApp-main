@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: api-gateway
-        image: ghcr.io/adalisiwar/api-gateway:latest
+        image: fooddelivery/api-gateway:monitoring
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000
         env:
@@ -42,12 +43,19 @@ kind: Service
 metadata:
   name: api-gateway
   namespace: fooddelivery
+  labels:
+    monitoring: enabled
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/port: "9000"
 spec:
   type: NodePort
   selector:
     app: api-gateway
   ports:
-  - port: 9000
+  - name: http
+    port: 9000
     targetPort: 9000
     nodePort: 30090
 

@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: admin-service
-        image: ghcr.io/adalisiwar/admin-service:latest
+        image: fooddelivery/admin-service:monitoring
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8089
         env:
@@ -38,10 +39,17 @@ kind: Service
 metadata:
   name: admin-service
   namespace: fooddelivery
+  labels:
+    monitoring: enabled
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/port: "8089"
 spec:
   selector:
     app: admin-service
   ports:
-  - port: 8089
+  - name: http
+    port: 8089
     targetPort: 8089
 
