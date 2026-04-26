@@ -47,3 +47,8 @@ NAME                                                   READY   STATUS    RESTART
 prometheus-kube-prometheus-operator-786d4d45f9-mz9k6   1/1     Running   0          93s
 prometheus-kube-state-metrics-f47d8dd47-lddbt          1/1     Running   0          93s
 prometheus-prometheus-node-exporter-74j8j              1/1     Running   0          93s
+
+
+kubectl port-forward svc/prometheus-kube-prometheus-prometheus 9090:9090 -n default
+
+kubectl port-forward svc/prometheus-grafana 3000:80 -n default
